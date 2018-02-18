@@ -30,9 +30,9 @@
   "scripts": {
     "storybook": "start-storybook -p 6006 -c .storybook",
     "build-storybook": "build-storybook",
-    "test": "jest",
+    "test": "jest --watch",
     "np": "./new_package.sh",
-    "prettier": "prettier --write \"packages/**/*.js\" \".storybook/*.js\"",
+    "prettier": "prettier --write \"packages/**/*.js\" \".storybook/*.js\" \".jest/*.js\" \"template/*.js\"",
     "precommit:prettier": "echo 'Running Prettier on files...' && exit 0",
     "precommit:update-index": "git update-index --again"
   },

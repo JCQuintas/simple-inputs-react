@@ -2,10 +2,9 @@
   "name": "@simple-inputs-react/search",
   "version": "0.0.1",
   "description": "",
-  "main": "build/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "babel index.js -d build",
-    "build:watch": "babel index.js -w -d build",
+    "build": "babel index.js -d dist",
     "prepublish": "npm run build"
   },
   "keywords": [],
