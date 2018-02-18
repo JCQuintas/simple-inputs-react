@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const Container = styled.div`
-  background-color: blue;
+  background-color: pink;
 `
 
-class Search extends Component {
+class Search extends PureComponent {
   render() {
     return <Container>SIR-Search</Container>
   }

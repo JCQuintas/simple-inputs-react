@@ -34,6 +34,7 @@ sleep 1
 
 sed -i -e "s/COMPONENT_NAME/$component/g" "./packages/$package/index.js"
 sed -i -e "s/COMPONENT_NAME/$component/g" "./packages/$package/index.stories.js"
+sed -i -e "s/COMPONENT_NAME/$component/g" "./packages/$package/index.test.js"
 sed -i -e "s/PACKAGE_NAME/$package/g" "./packages/$package/package.json"
 
 echo "Success!"
