@@ -1,0 +1,39 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@storybook/react": "^3.3.13",
+    "@storybook/addon-actions": "^3.3.13",
+    "@storybook/addon-links": "^3.3.13",
+    "@storybook/addon-info": "^3.3.13",
+    "@storybook/addon-options": "^3.3.13",
+    "@storybook/addon-knobs": "^3.3.13",
+    "@storybook/addon-storyshots": "^3.3.13",
+    "@storybook/addons": "^3.3.13",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "jest": "^22.3.0",
+    "lerna": "^2.9.0",
+    "react": "^16.2.0",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.10.2",
+    "react-dom": "^16.2.0",
+    "react-test-renderer": "^16.2.0"
+  },
+  "scripts": {
+    "storybook": "start-storybook -p 6006 -c .storybook",
+    "build-storybook": "build-storybook",
+    "test": "jest",
+    "prettier": "prettier --write \"packages/**/*.js\" \".storybook/*.js\"",
+    "precommit:prettier": "echo 'Running Prettier on files...' && exit 0",
+    "precommit:update-index": "git update-index --again"
+  },
+  "precommit": [
+    "precommit:prettier",
+    "prettier",
+    "precommit:update-index"
+  ],
+  "dependencies": {}
+}
