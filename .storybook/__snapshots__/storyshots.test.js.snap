@@ -1,5 +1,107 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Storyshots Loading Default 1`] = `
+.c0 {
+  color: #000;
+  font-size: 4px;
+  position: relative;
+  margin: 0 auto;
+  -webkit-transform: translateZ(0) translateY(-100%);
+  -ms-transform: translateZ(0) translateY(-100%);
+  transform: translateZ(0) translateY(-100%);
+  text-indent: -9999em;
+}
+
+.c0,
+.c0:before,
+.c0:after {
+  border-radius: 100%;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: iVfUMe 1.4s infinite ease-in-out;
+  animation: iVfUMe 1.4s infinite ease-in-out;
+}
+
+.c0:before,
+.c0:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+
+.c0:before {
+  left: -3em;
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+.c0:after {
+  left: 3em;
+  -webkit-animation-delay: 0.16s;
+  animation-delay: 0.16s;
+}
+
+<div
+  className="c0"
+  type="menu"
+>
+  Loading...
+</div>
+`;
+
+exports[`Storyshots Loading With regular CSS 1`] = `
+.c0 {
+  color: #000;
+  font-size: 4px;
+  position: relative;
+  margin: 0 auto;
+  -webkit-transform: translateZ(0) translateY(-100%);
+  -ms-transform: translateZ(0) translateY(-100%);
+  transform: translateZ(0) translateY(-100%);
+  text-indent: -9999em;
+}
+
+.c0,
+.c0:before,
+.c0:after {
+  border-radius: 100%;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: iVfUMe 1.4s infinite ease-in-out;
+  animation: iVfUMe 1.4s infinite ease-in-out;
+}
+
+.c0:before,
+.c0:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+
+.c0:before {
+  left: -3em;
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+.c0:after {
+  left: 3em;
+  -webkit-animation-delay: 0.16s;
+  animation-delay: 0.16s;
+}
+
+<div
+  className="test-color c0"
+  type="menu"
+>
+  Loading...
+</div>
+`;
+
 exports[`Storyshots Search Default 1`] = `
 .c0 {
   background-color: pink;
