@@ -45,6 +45,11 @@ exports[`Storyshots Loading Default 1`] = `
 
 <div
   className="c0"
+  style={
+    Object {
+      "fontSize": "10px",
+    }
+  }
   type="menu"
 >
   Loading...
@@ -96,6 +101,11 @@ exports[`Storyshots Loading With regular CSS 1`] = `
 
 <div
   className="test-color c0"
+  style={
+    Object {
+      "fontSize": "10px",
+    }
+  }
   type="menu"
 >
   Loading...

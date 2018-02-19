@@ -62,12 +62,12 @@ const defaultArray = [
 const instanceOfStories = storiesOf('Search', module).addDecorator(withKnobs)
 instanceOfStories.add('Default', () => (
   <Component
+    placeholder={text('placeholder', 'Search')}
     keepOpen={boolean('keepOpen', false)}
+    loading={boolean('loading (need search term)', false)}
     data={object('data', defaultArray)}
     onChange={console.log}
     onSelect={console.log}
-    placeholder={text('placeholder', 'Search')}
-    loading={boolean('loading (need search term)', false)}
   />
 ))
 

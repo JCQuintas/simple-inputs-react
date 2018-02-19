@@ -1,16 +1,13 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import Component from './index.js'
-import { withKnobs, select } from '@storybook/addon-knobs/react'
+import { withKnobs, select, number, text } from '@storybook/addon-knobs/react'
 
 const typeValues = {
   menu: 'menu',
   hamburger: 'hamburger',
   'dot-spinner': 'dot-spinner',
 }
-
-const defaultValue = 'menu'
-const groupId = 'TYPE-ID'
 
 const stories = [
   {
@@ -25,15 +22,21 @@ const stories = [
 
 const instanceOfStories = storiesOf('Loading', module).addDecorator(withKnobs)
 instanceOfStories.add(stories[0].name, () => {
-  return <Component {...stories[0].props} type={select('Type', typeValues, defaultValue, groupId)} />
+  const styles = {
+    fontSize: number('font-size:', 10, { step: 0.5 }) + 'px',
+  }
+  return <Component {...stories[0].props} type={select('Type', typeValues, 'menu')} style={styles} />
 })
 
 instanceOfStories.add(stories[1].name, () => {
-  const typeValue = select('Type', typeValues, defaultValue, groupId)
+  const styles = {
+    fontSize: number('font-size:', 10, { step: 0.5 }) + 'px',
+  }
+  const typeValue = select('Type', typeValues, 'menu')
   const classNames = {
     menu: 'test-color',
     hamburger: 'test-background-color test-color',
     'dot-spinner': 'test-color',
   }
-  return <Component {...stories[1].props} type={typeValue} className={classNames[typeValue]} />
+  return <Component {...stories[1].props} type={typeValue} className={classNames[typeValue]} style={styles} />
 })
