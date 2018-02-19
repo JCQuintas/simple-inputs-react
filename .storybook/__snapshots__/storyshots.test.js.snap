@@ -104,12 +104,225 @@ exports[`Storyshots Loading With regular CSS 1`] = `
 
 exports[`Storyshots Search Default 1`] = `
 .c0 {
-  background-color: pink;
+  padding: 2px 15px;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-shadow: 0 0 2px rgba(0,0,0,0.15);
+}
+
+.c1 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.c2 {
+  background-color: transparent;
+  width: 100%;
+  border: none;
+  overflow: hidden;
+}
+
+.c2:focus {
+  outline: none;
+}
+
+.c3 {
+  z-index: 100;
+  position: absolute;
+  background-color: white;
+  margin-top: 2px;
+  overflow: hidden;
+  top: 100%;
+  left: 0;
+  right: 0;
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.15);
+  max-height: 0;
+}
+
+.c4 {
+  padding: 5px 15px;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c4:hover,
+.c4:focus {
+  outline: none;
+  background-color: rgba(0,0,0,0.1);
 }
 
 <div
   className="c0"
 >
-  SIR-Search
+  <div
+    className="c1"
+  >
+    <span>
+      Search
+    </span>
+  </div>
+  <input
+    className="c2"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    tabIndex="0"
+    value=""
+  />
+  <div
+    className="c3"
+    onBlur={[Function]}
+    onFocus={[Function]}
+    open={false}
+  >
+    
+    <div
+      className="c4"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      tabIndex="0"
+    >
+      One
+    </div>
+    <div
+      className="c4"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      tabIndex="0"
+    >
+      Two
+    </div>
+  </div>
 </div>
+`;
+
+exports[`Storyshots Search With github search 1`] = `
+Array [
+  <div
+    style={
+      Object {
+        "marginBottom": 5,
+      }
+    }
+  >
+    Search a GitHub username
+  </div>,
+  .c0 {
+  padding: 2px 15px;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-shadow: 0 0 2px rgba(0,0,0,0.15);
+}
+
+.c1 {
+  position: absolute;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.c2 {
+  background-color: transparent;
+  width: 100%;
+  border: none;
+  overflow: hidden;
+}
+
+.c2:focus {
+  outline: none;
+}
+
+.c3 {
+  z-index: 100;
+  position: absolute;
+  background-color: white;
+  margin-top: 2px;
+  overflow: hidden;
+  top: 100%;
+  left: 0;
+  right: 0;
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.15);
+  max-height: 0;
+}
+
+<div
+    className="c0"
+  >
+    <div
+      className="c1"
+    >
+      <span>
+        Search
+      </span>
+    </div>
+    <input
+      className="c2"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      tabIndex="0"
+      value=""
+    />
+    <div
+      className="c3"
+      onBlur={[Function]}
+      onFocus={[Function]}
+      open={undefined}
+    >
+      
+    </div>
+  </div>,
+]
 `;
