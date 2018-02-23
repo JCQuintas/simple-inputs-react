@@ -111,7 +111,7 @@ class Search extends PureComponent {
   }
 
   inputKeyDown = e => {
-    if (e && (e.key === 'ArrowDown' || e.key === 'ArrowRight')) {
+    if (e && e.key === 'ArrowDown') {
       if (this.resultsComponent && this.resultsComponent.firstElementChild) {
         e.preventDefault()
         this.resultsComponent.firstElementChild.focus()
@@ -130,6 +130,7 @@ class Search extends PureComponent {
 
   onSelect(data) {
     const { onSelect } = this.props
+    this.setState({ inputHasFocus: false })
     if (onSelect) onSelect(data)
   }
 
