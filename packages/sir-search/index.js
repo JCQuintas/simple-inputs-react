@@ -1,13 +1,7 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import Loading from './loading'
-import Input from './input'
-import Placeholder from './placeholder'
-import ResultList from './result-list'
-import ResultItem from './result-item'
-import NoData from './no-data'
-import Container from './container'
+import { Placeholder, Input, ResultList, ResultItem, NoData, Loading, Container } from './components'
 
 class Search extends PureComponent {
   inputComponent = null
