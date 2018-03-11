@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { storiesOf } from '@storybook/react'
 import Component from './index.js'
-import { withKnobs, boolean, object, text } from '@storybook/addon-knobs/react'
+import { withKnobs, boolean, object, text, select } from '@storybook/addon-knobs/react'
 import debounce from 'lodash.debounce'
 
 class FetchExample extends Component {
@@ -48,6 +48,12 @@ class FetchExample extends Component {
   }
 }
 
+const searchStates = {
+  none: 'none',
+  loading: 'loading',
+  keepOpen: 'keepOpen',
+}
+
 const defaultArray = [
   {
     id: 1,
@@ -60,16 +66,21 @@ const defaultArray = [
 ]
 
 const instanceOfStories = storiesOf('Search', module).addDecorator(withKnobs)
-instanceOfStories.add('Default', () => (
-  <Component
-    placeholder={text('placeholder', 'Search')}
-    keepOpen={boolean('keepOpen', false)}
-    loading={boolean('loading (need search term)', false)}
-    data={object('data', defaultArray)}
-    onChange={console.log}
-    onSelect={console.log}
-  />
-))
+instanceOfStories.add('Default', () => {
+  const searchState = select('state', searchStates, 'none')
+  const value = text('search term', '')
+  return (
+    <Component
+      placeholder={text('placeholder', 'Search')}
+      keepOpen={searchState === 'keepOpen'}
+      loading={searchState === 'loading'}
+      data={object('data', defaultArray)}
+      value={value ? value : searchState === 'loading' ? 'needed search term' : ''}
+      onChange={console.log}
+      onSelect={console.log}
+    />
+  )
+})
 
 instanceOfStories.add('With github search', () => {
   return <FetchExample />

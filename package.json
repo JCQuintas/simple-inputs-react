@@ -29,6 +29,7 @@
     "react-test-renderer": "^16.2.0"
   },
   "scripts": {
+    "start": "npm run storybook",
     "storybook": "start-storybook -p 6006 -c .storybook",
     "build-storybook": "build-storybook",
     "test": "jest --watch",

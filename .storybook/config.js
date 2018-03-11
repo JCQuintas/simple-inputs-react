@@ -12,10 +12,10 @@ setOptions({
   name: 'Simple Inputs React',
   url: 'https://test.com',
   goFullScreen: false,
-  showLeftPanel: true,
-  showDownPanel: true,
+  showStoriesPanel: true,
+  showAddonPanel: true,
   showSearchBox: false,
-  downPanelInRight: true,
+  addonPanelInRight: true,
   sortStoriesByKind: true,
 })
 
