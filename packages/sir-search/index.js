@@ -59,40 +59,13 @@ class Search extends PureComponent {
       innerRef: r => (this.inputComponent = r),
       value: search,
       onChange: this.inputChange,
-      onFocus: this.focus(true),
-      onBlur: this.focus(false),
+      onClick: this.focus(true),
       onKeyDown: this.inputKeyDown,
     }
 
     if (inputComponent) return React.createElement(inputComponent, props)
 
     return <Input {...props} tabIndex="0" className={inputClassName} />
-  }
-
-  // hover = index => {
-  //   this.setState({ selectedIndex: index })
-  // }
-
-  renderResultItem(data, index) {
-    const { resultItemClassName, resultItemComponent } = this.props
-
-    const props = {
-      key: data.id || index,
-      onClick: this.listClickOrKeyDown(data, true),
-      onFocus: this.focus(true),
-      onBlur: this.focus(false),
-      onKeyDown: this.listClickOrKeyDown(data, false),
-      // onMouseEnter: this.hover(index),
-      data,
-    }
-
-    if (resultItemComponent) return React.createElement(resultItemComponent, props)
-
-    return (
-      <ResultItem tabIndex="0" className={resultItemClassName} {...props}>
-        {data.title}
-      </ResultItem>
-    )
   }
 
   renderResults() {
@@ -103,8 +76,7 @@ class Search extends PureComponent {
       innerRef: r => (this.resultsComponent = r),
       value: search,
       open: inputHasFocus || keepOpen,
-      onFocus: this.focus(true),
-      onBlur: this.focus(false),
+      onMouseLeave: this.hover(-1),
     }
 
     return (
@@ -115,25 +87,66 @@ class Search extends PureComponent {
     )
   }
 
+  renderResultItem(data, index) {
+    const { resultItemClassName, resultItemComponent } = this.props
+    const { selectedIndex } = this.state
+
+    const props = {
+      key: data.id || index,
+      onMouseDown: this.listClick,
+      onMouseOver: this.hover(index),
+      selected: selectedIndex === index,
+      data,
+    }
+
+    if (resultItemComponent) return React.createElement(resultItemComponent, props)
+
+    return (
+      <ResultItem className={resultItemClassName} {...props}>
+        {data.title}
+      </ResultItem>
+    )
+  }
+
   // Component 'reaction' logic
 
   inputChange = e => {
     const { onChange } = this.props
-    this.setState({ search: e.target.value }, () => {
+    this.setState({ search: e.target.value, inputHasFocus: true }, () => {
       if (onChange) onChange(this.state.search)
     })
   }
 
-  focus = isFocus => e => {
-    this.setState({ inputHasFocus: isFocus })
+  hover = index => e => {
+    this.selectIndex(index)
   }
 
+  selectIndex(index) {
+    const { data } = this.props
+    if (index > data.length - 1) {
+      this.setState({ selectedIndex: -1 })
+    } else if (index < -1) {
+      this.setState({ selectedIndex: data.length - 1 })
+    } else {
+      this.setState({ selectedIndex: index })
+    }
+  }
+
+  focus = isFocus => e => this.setState({ inputHasFocus: isFocus })
+
   inputKeyDown = e => {
-    if (e && e.key === 'ArrowDown') {
-      if (this.resultsComponent && this.resultsComponent.firstElementChild) {
-        e.preventDefault()
-        this.resultsComponent.firstElementChild.focus()
-      }
+    const { data } = this.props
+    const { selectedIndex } = this.state
+    if (!e) return null
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      this.setState({ inputHasFocus: true })
+      this.selectIndex(selectedIndex + 1)
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      this.selectIndex(selectedIndex - 1)
+    } else if (e.key === 'Enter') {
+      this.onSelect()
     }
   }
 
@@ -146,31 +159,20 @@ class Search extends PureComponent {
     }
   }
 
-  onSelect(data) {
-    const { onSelect } = this.props
+  onSelect() {
+    const { onSelect, data } = this.props
+    const { selectedIndex } = this.state
     this.setState({ inputHasFocus: false })
-    if (onSelect) onSelect(data)
+    if (data && selectedIndex >= 0 && onSelect) onSelect(data[selectedIndex])
   }
 
-  listClickOrKeyDown = (data, isClick) => e => {
-    if (e && !isClick) {
-      if (e.key === 'Enter') {
-        this.onSelect(data)
-      } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-        this.arrowKeyFocusChange('next', e)
-      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-        this.arrowKeyFocusChange('previous', e)
-      }
-    } else {
-      this.onSelect(data)
-    }
-  }
+  listClick = e => this.onSelect()
 
   render() {
     const { className, loading } = this.props
     const { search, inputHasFocus } = this.state
     return (
-      <Container className={className}>
+      <Container className={className} onFocus={this.focus(true)} onBlur={this.focus(false)}>
         {search === '' && !inputHasFocus && this.renderPlaceholder()}
         {loading && search && this.renderLoading()}
         {this.renderInput()}

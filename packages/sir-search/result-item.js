@@ -6,7 +6,10 @@ export default styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  ${props => (props.selected ? rgba(0, 0, 0, 0.1) : undefined)} &:hover, &:focus {
+  background-color: ${props => (props.selected ? 'rgba(0, 0, 0, 0.1)' : undefined)};
+
+  &:hover,
+  &:focus {
     outline: none;
     background-color: rgba(0, 0, 0, 0.1);
   }

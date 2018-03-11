@@ -1,36 +1,40 @@
 import React, { Fragment } from 'react'
 import { storiesOf } from '@storybook/react'
-import Component from './index.js'
+import Component, { ResultItem } from './index.js'
 import { withKnobs, boolean, object, text, select } from '@storybook/addon-knobs/react'
 import debounce from 'lodash.debounce'
+
+const Item = ({ data, ...props }) => {
+  return (
+    <ResultItem {...props}>
+      <img style={{ height: 28, width: 28, marginRight: 5, borderRadius: 14 }} src={data.avatar_url} />
+      <span>{data.login}</span>
+    </ResultItem>
+  )
+}
 
 class FetchExample extends Component {
   state = {
     data: [],
     loading: false,
+    value: '',
   }
 
   fetchData = debounce(t => {
     fetch(`https://api.github.com/search/users?q=${t}`)
       .then(r => r.json())
       .then(r => {
-        const d = r.items.map(v => {
-          return {
-            title: v.login,
-            id: v.id,
-          }
-        })
-        this.setState({ data: d, loading: false })
+        this.setState({ data: r.items, loading: false })
       })
   }, 300)
 
   onChange = t => {
-    this.setState({ loading: true })
-    this.fetchData(t)
+    this.setState({ loading: true, value: t }, () => this.fetchData(this.state.value))
   }
 
   onSelect = v => {
     console.log(v)
+    this.setState({ value: v.login })
   }
 
   render() {
@@ -42,6 +46,8 @@ class FetchExample extends Component {
           data={this.state.data}
           onSelect={this.onSelect}
           loading={this.state.loading}
+          value={this.state.value}
+          resultItemComponent={Item}
         />
       </Fragment>
     )
