@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import Component from './index.js'
-import { withKnobs, select, number, text } from '@storybook/addon-knobs/react'
+import { withKnobs, select, number } from '@storybook/addon-knobs/react'
 
 const typeValues = {
   menu: 'menu',

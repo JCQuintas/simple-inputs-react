@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import Loader from './loaders'
 

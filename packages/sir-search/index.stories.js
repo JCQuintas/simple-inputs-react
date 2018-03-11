@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react'
 import { storiesOf } from '@storybook/react'
 import Component, { ResultItem } from './index.js'
-import { withKnobs, boolean, object, text, select } from '@storybook/addon-knobs/react'
+import { withKnobs, object, text, select } from '@storybook/addon-knobs/react'
 import debounce from 'lodash.debounce'
 
 const Item = ({ data, ...props }) => {
   return (
     <ResultItem {...props}>
-      <img style={{ height: 28, width: 28, marginRight: 5, borderRadius: 14 }} src={data.avatar_url} />
+      <img style={{ height: 28, width: 28, marginRight: 5, borderRadius: 14 }} src={data.avatar_url} alt={data.login} />
       <span>{data.login}</span>
     </ResultItem>
   )

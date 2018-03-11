@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Placeholder, Input, ResultList, ResultItem, NoData, Loading, Container } from './components'
 
@@ -63,7 +62,7 @@ class Search extends PureComponent {
   }
 
   renderResults() {
-    const { resultClassName, resultsComponent, keepOpen, loading, data } = this.props
+    const { resultClassName, resultComponent, keepOpen, loading, data } = this.props
     const { search, inputHasFocus } = this.state
 
     const props = {
@@ -72,6 +71,8 @@ class Search extends PureComponent {
       open: inputHasFocus || keepOpen,
       onMouseLeave: this.hover(-1),
     }
+
+    if (resultComponent) return React.createElement(resultComponent, props)
 
     return (
       <ResultList {...props} className={resultClassName}>
@@ -111,9 +112,7 @@ class Search extends PureComponent {
     })
   }
 
-  hover = index => e => {
-    this.selectIndex(index)
-  }
+  hover = index => () => this.selectIndex(index)
 
   selectIndex(index) {
     const { data } = this.props
@@ -126,10 +125,9 @@ class Search extends PureComponent {
     }
   }
 
-  focus = isFocus => e => this.setState({ inputHasFocus: isFocus })
+  focus = isFocus => () => this.setState({ inputHasFocus: isFocus })
 
   inputKeyDown = e => {
-    const { data } = this.props
     const { selectedIndex } = this.state
     if (!e) return null
     if (e.key === 'ArrowDown') {
@@ -144,15 +142,6 @@ class Search extends PureComponent {
     }
   }
 
-  arrowKeyFocusChange(direction, e) {
-    e.preventDefault()
-    if (document.activeElement && document.activeElement[`${direction}ElementSibling`]) {
-      document.activeElement[`${direction}ElementSibling`].focus()
-    } else if (direction === 'previous') {
-      this.inputComponent.focus()
-    }
-  }
-
   onSelect() {
     const { onSelect, data } = this.props
     const { selectedIndex } = this.state
@@ -160,7 +149,7 @@ class Search extends PureComponent {
     if (data && selectedIndex >= 0 && onSelect) onSelect(data[selectedIndex])
   }
 
-  listClick = e => this.onSelect()
+  listClick = () => this.onSelect()
 
   render() {
     const { className, loading } = this.props
@@ -196,8 +185,6 @@ Search.propTypes = {
   className: PropTypes.string,
   data: PropTypes.array,
   keepOpen: PropTypes.bool,
-  resultClassName: PropTypes.string,
-  resultItemClassName: PropTypes.string,
   noDataComponent: PropTypes.func,
   noDataClassName: PropTypes.string,
   noDataText: PropTypes.string,
@@ -206,7 +193,7 @@ Search.propTypes = {
   resultItemClassName: PropTypes.string,
   resultItemComponent: PropTypes.func,
   resultClassName: PropTypes.string,
-  resultsComponent: PropTypes.func,
+  resultComponent: PropTypes.func,
 }
 
 export default Search
