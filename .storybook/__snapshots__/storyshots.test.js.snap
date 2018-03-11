@@ -113,18 +113,15 @@ exports[`Storyshots Loading With regular CSS 1`] = `
 `;
 
 exports[`Storyshots Search Default 1`] = `
-.c0 {
-  padding: 2px 15px;
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  box-shadow: 0 0 2px rgba(0,0,0,0.15);
+.c2 {
+  background-color: transparent;
+  width: 100%;
+  border: none;
+  overflow: hidden;
+}
+
+.c2:focus {
+  outline: none;
 }
 
 .c1 {
@@ -142,17 +139,6 @@ exports[`Storyshots Search Default 1`] = `
   -ms-flex-pack: center;
   justify-content: center;
   pointer-events: none;
-}
-
-.c2 {
-  background-color: transparent;
-  width: 100%;
-  border: none;
-  overflow: hidden;
-}
-
-.c2:focus {
-  outline: none;
 }
 
 .c3 {
@@ -190,8 +176,24 @@ exports[`Storyshots Search Default 1`] = `
   background-color: rgba(0,0,0,0.1);
 }
 
+.c0 {
+  padding: 2px 15px;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-shadow: 0 0 2px rgba(0,0,0,0.15);
+}
+
 <div
   className="c0"
+  onBlur={[Function]}
+  onFocus={[Function]}
 >
   <div
     className="c1"
@@ -202,37 +204,44 @@ exports[`Storyshots Search Default 1`] = `
   </div>
   <input
     className="c2"
-    onBlur={[Function]}
     onChange={[Function]}
-    onFocus={[Function]}
+    onClick={[Function]}
     onKeyDown={[Function]}
     tabIndex="0"
     value=""
   />
   <div
     className="c3"
-    onBlur={[Function]}
-    onFocus={[Function]}
+    onMouseLeave={[Function]}
     open={false}
+    value=""
   >
     
     <div
       className="c4"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      tabIndex="0"
+      data={
+        Object {
+          "id": 1,
+          "title": "One",
+        }
+      }
+      onMouseDown={[Function]}
+      onMouseOver={[Function]}
+      selected={false}
     >
       One
     </div>
     <div
       className="c4"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      tabIndex="0"
+      data={
+        Object {
+          "id": 2,
+          "title": "Two",
+        }
+      }
+      onMouseDown={[Function]}
+      onMouseOver={[Function]}
+      selected={false}
     >
       Two
     </div>
@@ -251,18 +260,15 @@ Array [
   >
     Search a GitHub username
   </div>,
-  .c0 {
-  padding: 2px 15px;
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  box-shadow: 0 0 2px rgba(0,0,0,0.15);
+  .c2 {
+  background-color: transparent;
+  width: 100%;
+  border: none;
+  overflow: hidden;
+}
+
+.c2:focus {
+  outline: none;
 }
 
 .c1 {
@@ -282,17 +288,6 @@ Array [
   pointer-events: none;
 }
 
-.c2 {
-  background-color: transparent;
-  width: 100%;
-  border: none;
-  overflow: hidden;
-}
-
-.c2:focus {
-  outline: none;
-}
-
 .c3 {
   z-index: 100;
   position: absolute;
@@ -306,8 +301,24 @@ Array [
   max-height: 0;
 }
 
+.c0 {
+  padding: 2px 15px;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-shadow: 0 0 2px rgba(0,0,0,0.15);
+}
+
 <div
     className="c0"
+    onBlur={[Function]}
+    onFocus={[Function]}
   >
     <div
       className="c1"
@@ -318,18 +329,17 @@ Array [
     </div>
     <input
       className="c2"
-      onBlur={[Function]}
       onChange={[Function]}
-      onFocus={[Function]}
+      onClick={[Function]}
       onKeyDown={[Function]}
       tabIndex="0"
       value=""
     />
     <div
       className="c3"
-      onBlur={[Function]}
-      onFocus={[Function]}
+      onMouseLeave={[Function]}
       open={undefined}
+      value=""
     >
       
     </div>
