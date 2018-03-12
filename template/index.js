@@ -14,6 +14,8 @@ class COMPONENT_NAME extends PureComponent {
 
 COMPONENT_NAME.displayName = 'SIR-COMPONENT_NAME'
 
+COMPONENT_NAME.propTypes = {}
+
 COMPONENT_NAME.defaultProps = {}
 
 export default COMPONENT_NAME
