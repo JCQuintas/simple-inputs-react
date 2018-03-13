@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-const size = 20
+const size = 10
 const Container = styled.div`
   background-color: transparent;
   display: flex;
@@ -12,51 +12,55 @@ const Container = styled.div`
   height: ${size + 10}px;
 `
 
-const Thumb = styled.div.attrs({
-  style: props => ({
-    left: props.left,
-    right: props.right,
-  }),
-})`
+const Thumb = styled.div`
   background-color: teal;
   height: ${size}px;
   width: ${size}px;
-  border-radius: ${size / 2}px;
+  border-radius: 100%;
   cursor: pointer;
   position: absolute;
-  transform: translateY(-25%) translateX(-50%);
+  transform: translateX(-50%);
   transition: opacity 0.3s ease;
-
+  touch-action: pan-y;
   &:hover {
     opacity: 0.6;
   }
 `
-
+const color = 'lightgray'
+const trackSize = 10
 const Track = styled.div`
-  height: 10px;
+  height: ${trackSize}px;
   width: 100%;
-  background-color: lightgray;
-  border-radius: 5px;
+  background-color: ${color};
+  border-radius: ${trackSize / 2}px;
+  position: relative;
+  display: flex;
+  align-items: center;
 `
 
 class Slider extends PureComponent {
-  containerComponent = null
-  left = 0
-  right = 0
+  containerRef = null
+  thumbRef = null
+  containerInfo = {}
   maxValue = 0
+  minValue = 0
+  thumbInfo = {}
   state = {
     thumbPosition: 0,
+    value: 0,
   }
 
   componentDidMount() {
-    this.getParentSize()
+    window.addEventListener('resize', this.getSizes)
+    this.getSizes()
   }
 
   componentDidUpdate() {
-    this.getParentSize()
+    this.getSizes()
   }
 
   componentWillUnmount() {
+    window.removeEventListener('resize', this.getSizes)
     this.removeEvents()
   }
 
@@ -74,22 +78,58 @@ class Slider extends PureComponent {
     window.removeEventListener('touchend', this.endEvent)
   }
 
-  getParentSize() {
-    const rect = this.containerComponent.getBoundingClientRect()
-    this.left = rect.left
-    this.right = rect.right
-    this.maxValue = rect.right - rect.left
+  getSizes = () => {
+    this.containerInfo = this.containerRef.getBoundingClientRect()
+    this.thumbInfo = this.thumbRef.getBoundingClientRect()
+    this.maxValue = this.containerInfo.right - this.containerInfo.left
+    this.minValue = 0
+  }
+
+  getPercentOfMaxValue(position) {
+    return position * 100 / this.maxValue
+  }
+
+  cap(position) {
+    const { left, right } = this.containerInfo
+    if (position < left) return 0
+    if (position > right) return this.maxValue
+    return position
   }
 
   setPosition(position) {
-    if (position > this.maxValue) this.setState({ thumbPosition: this.maxValue })
-    if (position < this.left) this.setState({ thumbPosition: 0 })
-    if (position <= this.maxValue && position >= this.left) this.setState({ thumbPosition: position - this.left })
+    const value = this.getValueFromPosition(this.cap(position))
+    const newPosition = this.getPercentOfMaxValue(this.getPositionFromValue(value))
+    this.setState({ thumbPosition: newPosition, value }, () => this.onChange())
+  }
+
+  getPositionFromValue(value) {
+    const { max, min } = this.props
+    const percentage = (value - min) / (max - min)
+    const pos = !Number.isNaN(percentage) ? percentage * this.maxValue : 0
+    return pos
+  }
+
+  getValueFromPosition(pos) {
+    const { step, max, min } = this.props
+    const percentage = pos / (this.maxValue || 1)
+    const value = step * Math.round(percentage * (max - min) / step) + min
+    const decimals = `${step}`.replace('.', '').length - 1
+    return Number(value.toFixed(decimals))
+  }
+
+  onChange() {
+    const { onChange } = this.props
+    const { value } = this.state
+    if (onChange) onChange(value)
+  }
+
+  clamp(val, min, max) {
+    return val > max ? max : val < min ? min : val
   }
 
   getPosition() {
     const { thumbPosition } = this.state
-    return { left: Math.max(0, thumbPosition) }
+    return `${this.clamp(thumbPosition, 0, 100)}%`
   }
 
   startEvent = e => {
@@ -110,9 +150,9 @@ class Slider extends PureComponent {
 
   render() {
     return (
-      <Container innerRef={r => (this.containerComponent = r)}>
+      <Container innerRef={r => (this.containerRef = r)}>
         <Track onMouseDown={this.startEvent} onTouchStart={this.startEvent}>
-          <Thumb {...this.getPosition()} />
+          <Thumb style={{ left: this.getPosition() }} innerRef={r => (this.thumbRef = r)} />
         </Track>
       </Container>
     )
