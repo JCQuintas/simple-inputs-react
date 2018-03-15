@@ -30,6 +30,6 @@ stories.map(s =>
       max: number('max', 100, { step: 0.5 }),
       step: number('step', 10, { step: 0.5 }),
     }
-    return <Component {...stories[0].props} {...props} />
+    return <Component {...s.props} {...props} />
   })
 )

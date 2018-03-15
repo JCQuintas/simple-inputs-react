@@ -9,7 +9,7 @@ export default styled.div`
   cursor: pointer;
   position: absolute;
   transition: opacity 0.3s ease;
-  touch-action: pan-y;
+  touch-action: ${({ orientation }) => (orientation === 'vertical' ? 'pan-y' : 'pan-x')};
   &:hover {
     opacity: 0.6;
   }

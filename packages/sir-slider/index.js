@@ -105,11 +105,13 @@ class Slider extends PureComponent {
   }
 
   getValueFromPosition(pos) {
-    const { step, max, min } = this.props
+    const { step, max, min, orientation } = this.props
+    const isVertical = orientation === 'vertical'
     const percentage = pos / (this.maxPosition || 1)
     const value = step * Math.round(percentage * (max - min) / step) + min
     const decimals = `${step}`.replace('.', '').length - 1
-    return Number(value.toFixed(decimals))
+    const returnNumber = isVertical ? max - Number(value.toFixed(decimals)) : Number(value.toFixed(decimals))
+    return returnNumber
   }
 
   onChange() {
@@ -154,10 +156,11 @@ class Slider extends PureComponent {
   }
 
   render() {
+    const { orientation } = this.props
     return (
       <Container innerRef={r => (this.containerRef = r)}>
-        <Track onMouseDown={this.startEvent} onTouchStart={this.startEvent}>
-          <Thumb style={this.getPosition()} innerRef={r => (this.thumbRef = r)} />
+        <Track onMouseDown={this.startEvent} onTouchStart={this.startEvent} orientation={orientation}>
+          <Thumb style={this.getPosition()} innerRef={r => (this.thumbRef = r)} orientation={orientation} />
         </Track>
       </Container>
     )
