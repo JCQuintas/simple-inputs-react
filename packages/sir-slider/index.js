@@ -78,7 +78,7 @@ class Slider extends PureComponent {
 
   updatePositionFromValue({ value: v, min, max, callChange }) {
     const value = this.clamp(v, min, max)
-    const thumbPosition = this.getPositionFromValue(value)
+    const thumbPosition = this.clamp(this.getPositionFromValue(value), 0, this.maxPosition)
     this.setState({ value, thumbPosition }, () => {
       if (callChange) this.onChange()
     })
@@ -91,9 +91,10 @@ class Slider extends PureComponent {
   }
 
   updateValueFromPosition(position) {
-    const value = this.clamp(this.getValueFromPosition(this.cap(position)))
-    const newPosition = this.getPositionFromValue(value)
-    this.setState({ thumbPosition: newPosition, value }, () => this.onChange())
+    const { min, max } = this.props
+    const value = this.clamp(this.getValueFromPosition(this.cap(position)), min, max)
+    const thumbPosition = this.clamp(this.getPositionFromValue(value), 0, this.maxPosition)
+    this.setState({ value, thumbPosition }, () => this.onChange())
   }
 
   getPositionFromValue(value) {
@@ -117,11 +118,8 @@ class Slider extends PureComponent {
     if (onChange) onChange(value)
   }
 
-  clamp(val, eMin, eMax) {
-    const { min, max } = this.props
-    const iMin = !Number.isNaN(eMin) ? eMin : min
-    const iMax = !Number.isNaN(eMax) ? eMax : max
-    return val > iMax ? iMax : val < iMin ? iMin : val
+  clamp(val, min, max) {
+    return val > max ? max : val < min ? min : val
   }
 
   getPosition() {
