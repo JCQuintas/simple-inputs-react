@@ -4,9 +4,9 @@ import Loader from './loaders'
 
 class Loading extends PureComponent {
   render() {
-    const { type } = this.props
+    const { type, ...props } = this.props
     const Load = Loader[type]
-    return <Load {...this.props} />
+    return <Load {...props} />
   }
 }
 

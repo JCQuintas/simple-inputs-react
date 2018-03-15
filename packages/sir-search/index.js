@@ -152,10 +152,32 @@ class Search extends PureComponent {
   listClick = () => this.onSelect()
 
   render() {
-    const { className, loading } = this.props
+    const {
+      placeholder,
+      placeholderClassName,
+      value,
+      loading,
+      loadingComponent,
+      loadingClassName,
+      loadingType,
+      onChange,
+      onSelect,
+      data,
+      keepOpen,
+      noDataComponent,
+      noDataClassName,
+      noDataText,
+      inputClassName,
+      inputComponent,
+      resultItemClassName,
+      resultItemComponent,
+      resultClassName,
+      resultComponent,
+      ...props
+    } = this.props
     const { search, inputHasFocus } = this.state
     return (
-      <Container className={className} onFocus={this.focus(true)} onBlur={this.focus(false)}>
+      <Container onFocus={this.focus(true)} onBlur={this.focus(false)} {...props}>
         {search === '' && !inputHasFocus && this.renderPlaceholder()}
         {loading && search && this.renderLoading()}
         {this.renderInput()}

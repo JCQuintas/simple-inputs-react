@@ -136,6 +136,8 @@ class Slider extends PureComponent {
   }
 
   startEvent = e => {
+    const { disabled } = this.props
+    if (disabled) return null
     if (e.button && e.button !== 0) return null
     this.addEvents()
     if (e.target === this.thumbRef) return null
@@ -156,11 +158,23 @@ class Slider extends PureComponent {
   }
 
   render() {
-    const { orientation } = this.props
+    const { orientation, disabled, value, onChange, onSlideEnd, min, max, step, ...props } = this.props
     return (
-      <Container innerRef={r => (this.containerRef = r)}>
-        <Track onMouseDown={this.startEvent} onTouchStart={this.startEvent} orientation={orientation}>
-          <Thumb style={this.getPosition()} innerRef={r => (this.thumbRef = r)} orientation={orientation} />
+      <Container innerRef={r => (this.containerRef = r)} {...props}>
+        <Track
+          className={disabled ? 'disabled' : undefined}
+          onMouseDown={this.startEvent}
+          onTouchStart={this.startEvent}
+          orientation={orientation}
+          disabled={disabled}
+        >
+          <Thumb
+            className={disabled ? 'disabled' : undefined}
+            style={this.getPosition()}
+            innerRef={r => (this.thumbRef = r)}
+            orientation={orientation}
+            disabled={disabled}
+          />
         </Track>
       </Container>
     )
@@ -171,7 +185,6 @@ Slider.displayName = 'SIR-Slider'
 
 Slider.propTypes = {
   value: PropTypes.number,
-  defaultValue: PropTypes.number,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
   onSlideEnd: PropTypes.func,

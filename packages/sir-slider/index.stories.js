@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import Component from './index.js'
-import { withKnobs, number } from '@storybook/addon-knobs/react'
+import { withKnobs, number, boolean } from '@storybook/addon-knobs/react'
 
 const stories = [
   {
@@ -29,6 +29,7 @@ stories.map(s =>
       min: number('min', 0, { step: 0.5 }),
       max: number('max', 100, { step: 0.5 }),
       step: number('step', 10, { step: 0.5 }),
+      disabled: boolean('disabled', false),
     }
     return <Component {...s.props} {...props} />
   })
