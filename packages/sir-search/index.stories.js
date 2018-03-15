@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, Component } from 'react'
 import { storiesOf } from '@storybook/react'
-import Component, { ResultItem } from './index.js'
+import StoryComponent, { ResultItem } from './index.js'
 import { withKnobs, object, text, select } from '@storybook/addon-knobs/react'
 import debounce from 'lodash.debounce'
 
@@ -41,7 +41,7 @@ class FetchExample extends Component {
     return (
       <Fragment>
         <div style={{ marginBottom: 5 }}>Search a GitHub username</div>
-        <Component
+        <StoryComponent
           onChange={this.onChange}
           data={this.state.data}
           onSelect={this.onSelect}
@@ -76,7 +76,7 @@ instanceOfStories.add('Default', () => {
   const searchState = select('state', searchStates, 'none')
   const value = text('search term', '')
   return (
-    <Component
+    <StoryComponent
       placeholder={text('placeholder', 'Search')}
       keepOpen={searchState === 'keepOpen'}
       loading={searchState === 'loading'}

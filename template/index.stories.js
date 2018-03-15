@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import Component from './index.js'
+import StoryComponent from './index.js'
 
 const stories = [
   {
@@ -10,4 +10,4 @@ const stories = [
 ]
 
 const instanceOfStories = storiesOf('COMPONENT_NAME', module)
-stories.map(v => instanceOfStories.add(v.name, () => <Component {...v.props} />))
+stories.map(v => instanceOfStories.add(v.name, () => <StoryComponent {...v.props} />))

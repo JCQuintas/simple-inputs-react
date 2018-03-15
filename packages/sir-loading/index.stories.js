@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import Component from './index.js'
+import StoryComponent from './index.js'
 import { withKnobs, select, number } from '@storybook/addon-knobs/react'
 
 const typeValues = {
@@ -25,7 +25,7 @@ instanceOfStories.add(stories[0].name, () => {
   const styles = {
     fontSize: number('font-size:', 10, { step: 0.5 }) + 'px',
   }
-  return <Component {...stories[0].props} type={select('Type', typeValues, 'menu')} style={styles} />
+  return <StoryComponent {...stories[0].props} type={select('Type', typeValues, 'menu')} style={styles} />
 })
 
 instanceOfStories.add(stories[1].name, () => {
@@ -38,5 +38,5 @@ instanceOfStories.add(stories[1].name, () => {
     hamburger: 'test-background-color test-color',
     'dot-spinner': 'test-color',
   }
-  return <Component {...stories[1].props} type={typeValue} className={classNames[typeValue]} style={styles} />
+  return <StoryComponent {...stories[1].props} type={typeValue} className={classNames[typeValue]} style={styles} />
 })

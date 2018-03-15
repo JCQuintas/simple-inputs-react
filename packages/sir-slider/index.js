@@ -29,8 +29,10 @@ class Slider extends PureComponent {
   }
 
   componentDidMount() {
+    const { value, min, max } = this.props
     window.addEventListener('resize', this.resizeEvent)
     this.getSizes()
+    this.updatePositionFromValue({ value, min, max })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -116,8 +118,8 @@ class Slider extends PureComponent {
 
   onChange() {
     const { onChange } = this.props
-    const { value } = this.state
-    if (onChange) onChange(value)
+    const { value, thumbPosition } = this.state
+    if (onChange) onChange(value, thumbPosition)
   }
 
   clamp(val, min, max) {
@@ -151,9 +153,8 @@ class Slider extends PureComponent {
 
   endEvent = e => {
     const { onSlideEnd } = this.props
-    const { value } = this.state
-    this.moveEvent(e)
-    if (onSlideEnd) onSlideEnd(value)
+    const { value, thumbPosition } = this.state
+    if (onSlideEnd) onSlideEnd(value, thumbPosition)
     this.removeEvents()
   }
 

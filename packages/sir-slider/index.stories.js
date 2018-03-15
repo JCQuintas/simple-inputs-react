@@ -1,25 +1,44 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { storiesOf } from '@storybook/react'
-import Component from './index.js'
+import StoryComponent from './index.js'
 import { withKnobs, number, boolean } from '@storybook/addon-knobs/react'
 
 const stories = [
   {
     name: 'Default',
     props: {
-      onChange: v => console.log(v),
-      onSlideEnd: v => console.log('SLIDE END: ', v),
+      onChange: (v, p) => console.log(`value: ${v} -- position: ${p}`),
+      onSlideEnd: (v, p) => console.log('SLIDE END -- ', `value: ${v} -- position: ${p}`),
     },
   },
   {
     name: 'Vertical',
     props: {
-      onChange: v => console.log(v),
-      onSlideEnd: v => console.log('SLIDE END: ', v),
+      onChange: (v, p) => console.log(`value: ${v} -- position: ${p}`),
+      onSlideEnd: (v, p) => console.log('SLIDE END -- ', `value: ${v} -- position: ${p}`),
       orientation: 'vertical',
     },
   },
 ]
+
+class Example extends Component {
+  state = {
+    value: 100,
+  }
+
+  render() {
+    return (
+      <div>
+        <StoryComponent
+          value={this.state.value}
+          onChange={value => this.setState({ value })}
+          onSlideEnd={(v, p) => console.log('SLIDE END -- ', `value: ${v} -- position: ${p}`)}
+        />
+        <div>{this.state.value}</div>
+      </div>
+    )
+  }
+}
 
 const instanceOfStories = storiesOf('Slider', module).addDecorator(withKnobs)
 stories.map(s =>
@@ -31,6 +50,8 @@ stories.map(s =>
       step: number('step', 10, { step: 0.5 }),
       disabled: boolean('disabled', false),
     }
-    return <Component {...s.props} {...props} />
+    return <StoryComponent {...s.props} {...props} />
   })
 )
+
+instanceOfStories.add('Controlled Value', () => <Example />)
