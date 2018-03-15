@@ -7,15 +7,29 @@ class Slider extends PureComponent {
   thumbRef = null
   maxPosition = 0
   grabPosition = 0
+  handleDimension = 0
+  rangeDimension = 0
   moveEvents = ['mousemove', 'touchmove']
   endEvents = ['mouseup', 'touchend']
+  mapping = {
+    horizontal: {
+      dimension: 'width',
+      direction: 'left',
+      coordinate: 'pageX',
+    },
+    vertical: {
+      dimension: 'height',
+      direction: 'bottom',
+      coordinate: 'pageY',
+    },
+  }
   state = {
     thumbPosition: 0,
     value: 0,
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.getSizes)
+    window.addEventListener('resize', this.resizeEvent)
     this.getSizes()
   }
 
@@ -26,11 +40,15 @@ class Slider extends PureComponent {
       nextProps.max !== this.props.max ||
       nextProps.step !== this.props.step
     )
-      this.updateValues(nextProps.value, nextProps.min, nextProps.max)
+      this.updatePositionFromValue({
+        value: nextProps.value,
+        min: nextProps.min,
+        max: nextProps.max,
+      })
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.getSizes)
+    window.removeEventListener('resize', this.resizeEvent)
     this.removeEvents()
   }
 
@@ -44,24 +62,25 @@ class Slider extends PureComponent {
     this.endEvents.map(v => window.removeEventListener(v, this.endEvent))
   }
 
+  getMapping(key) {
+    const { orientation } = this.props
+    return this.mapping[orientation][key]
+  }
+
   getSizes = () => {
-    // const { min, max, value } = this.props
     const containerInfo = this.containerRef.getBoundingClientRect()
     const thumbInfo = this.thumbRef.getBoundingClientRect()
-    this.maxPosition = containerInfo.width - thumbInfo.width
-    this.grabPosition = thumbInfo.width / 2
-    // this.updateValues(value, min, max)
+    this.thumbDimension = thumbInfo[this.getMapping('dimension')]
+    this.containerDimension = containerInfo[this.getMapping('dimension')]
+    this.maxPosition = this.containerDimension - this.thumbDimension
+    this.grabPosition = this.thumbDimension / 2
   }
 
-  getPercentOfMaxValue(position) {
-    return position * 100 / this.maxPosition
-  }
-
-  updateValues(value, min, max) {
-    const clampedValue = this.clamp(value, min, max)
-    this.setState({
-      value: clampedValue,
-      thumbPosition: this.getPositionFromValue(clampedValue),
+  updatePositionFromValue({ value: v, min, max, callChange }) {
+    const value = this.clamp(v, min, max)
+    const thumbPosition = this.getPositionFromValue(value)
+    this.setState({ value, thumbPosition }, () => {
+      if (callChange) this.onChange()
     })
   }
 
@@ -71,8 +90,8 @@ class Slider extends PureComponent {
     return position
   }
 
-  setPosition(position) {
-    const value = this.getValueFromPosition(this.cap(position))
+  updateValueFromPosition(position) {
+    const value = this.clamp(this.getValueFromPosition(this.cap(position)))
     const newPosition = this.getPositionFromValue(value)
     this.setState({ thumbPosition: newPosition, value }, () => this.onChange())
   }
@@ -98,17 +117,25 @@ class Slider extends PureComponent {
     if (onChange) onChange(value)
   }
 
-  clamp(val, min, max) {
-    return val > max ? max : val < min ? min : val
+  clamp(val, eMin, eMax) {
+    const { min, max } = this.props
+    const iMin = !Number.isNaN(eMin) ? eMin : min
+    const iMax = !Number.isNaN(eMax) ? eMax : max
+    return val > iMax ? iMax : val < iMin ? iMin : val
   }
 
   getPosition() {
     const { thumbPosition } = this.state
-    return `${thumbPosition}px`
+    return { [this.getMapping('direction')]: `${thumbPosition}px` }
+  }
+
+  resizeEvent = e => {
+    const { value } = this.state
+    this.getSizes()
+    this.updatePositionFromValue({ value })
   }
 
   startEvent = e => {
-    // console.log('started', e.pageX, e.pageY)
     if (e.button && e.button !== 0) return null
     this.addEvents()
     if (e.target === this.thumbRef) return null
@@ -116,12 +143,15 @@ class Slider extends PureComponent {
   }
 
   moveEvent = e => {
-    // console.log('moved', e.pageX)
-    if (e && e.pageX) this.setPosition(e.pageX - this.grabPosition * 2)
+    if (e && e[this.getMapping('coordinate')])
+      this.updateValueFromPosition(e[this.getMapping('coordinate')] - this.grabPosition * 2)
   }
 
   endEvent = e => {
-    // console.log('ended', e.pageX, e.pageY)
+    const { onSlideEnd } = this.props
+    const { value } = this.state
+    this.moveEvent(e)
+    if (onSlideEnd) onSlideEnd(value)
     this.removeEvents()
   }
 
@@ -129,7 +159,7 @@ class Slider extends PureComponent {
     return (
       <Container innerRef={r => (this.containerRef = r)}>
         <Track onMouseDown={this.startEvent} onTouchStart={this.startEvent}>
-          <Thumb style={{ left: this.getPosition() }} innerRef={r => (this.thumbRef = r)} />
+          <Thumb style={this.getPosition()} innerRef={r => (this.thumbRef = r)} />
         </Track>
       </Container>
     )
@@ -142,15 +172,19 @@ Slider.propTypes = {
   value: PropTypes.number,
   defaultValue: PropTypes.number,
   disabled: PropTypes.bool,
+  onChange: PropTypes.func,
+  onSlideEnd: PropTypes.func,
   min: PropTypes.number,
   max: PropTypes.number,
   step: PropTypes.number,
+  orientation: PropTypes.oneOf(['vertical', 'horizontal']),
 }
 
 Slider.defaultProps = {
   min: 0,
   max: 100,
   step: 1,
+  orientation: 'horizontal',
 }
 
 export default Slider
