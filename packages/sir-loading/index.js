@@ -2,11 +2,15 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Loader from './loaders'
 
+const loaderKeys = Object.keys(Loader)
+
 class Loading extends PureComponent {
   render() {
     const { type, ...props } = this.props
     const Load = Loader[type]
-    return <Load {...props} />
+    if (Load) return <Load {...props} />
+    const DefaultLoader = Loader['menu']
+    return <DefaultLoader {...props} />
   }
 }
 
@@ -18,7 +22,7 @@ Loading.defaultProps = {
 }
 
 Loading.propTypes = {
-  type: PropTypes.oneOf(['menu', 'hamburger', 'dot-spinner']),
+  type: PropTypes.oneOf(loaderKeys),
 }
 
 export default Loading

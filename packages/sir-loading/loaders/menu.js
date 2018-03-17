@@ -13,8 +13,6 @@ const loadAnimation = keyframes`
 `
 
 const Load = styled.div`
-  color: #000;
-  font-size: 4px;
   position: relative;
   margin: 0 auto;
   transform: translateZ(0) translateY(-100%);

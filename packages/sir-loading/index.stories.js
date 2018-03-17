@@ -33,10 +33,5 @@ instanceOfStories.add(stories[1].name, () => {
     fontSize: number('font-size:', 10, { step: 0.5 }) + 'px',
   }
   const typeValue = select('Type', typeValues, 'menu')
-  const classNames = {
-    menu: 'test-color',
-    hamburger: 'test-background-color test-color',
-    'dot-spinner': 'test-color',
-  }
-  return <StoryComponent {...stories[1].props} type={typeValue} className={classNames[typeValue]} style={styles} />
+  return <StoryComponent {...stories[1].props} type={typeValue} className={'test-color'} style={styles} />
 })

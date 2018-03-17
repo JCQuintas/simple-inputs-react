@@ -30,8 +30,6 @@ const loadAnimation = keyframes`
 `
 
 const Load = styled.div`
-  color: #000;
-  font-size: 5px;
   margin: 3.2em auto;
   width: 1em;
   height: 1em;
