@@ -89,7 +89,7 @@ class Search extends PureComponent {
 
     const props = {
       key: data.id || index,
-      onMouseDown: this.listClick,
+      onMouseDown: this.listMouseDown,
       onMouseOver: this.hover(index),
       selected: selectedIndex === index,
       data,
@@ -152,7 +152,13 @@ class Search extends PureComponent {
 
   focusInput = () => this.inputComponent.focus()
 
-  listClick = () => this.onSelect()
+  listMouseDown = e => {
+    if (e.button && e.button !== 0) {
+      e.preventDefault()
+      return null
+    }
+    this.onSelect()
+  }
 
   render() {
     const {
