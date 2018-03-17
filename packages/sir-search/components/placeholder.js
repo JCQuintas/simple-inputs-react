@@ -6,5 +6,4 @@ export default styled.div`
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  ${'' /* transform: translate(-50%, -50%); */};
 `

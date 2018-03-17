@@ -45,7 +45,7 @@ class Search extends PureComponent {
   }
 
   renderInput() {
-    const { inputClassName, inputComponent } = this.props
+    const { inputClassName, inputComponent, disabled } = this.props
     const { search } = this.state
 
     const props = {
@@ -54,6 +54,7 @@ class Search extends PureComponent {
       onChange: this.inputChange,
       onClick: this.focus(true),
       onKeyDown: this.inputKeyDown,
+      disabled,
     }
 
     if (inputComponent) return React.createElement(inputComponent, props)
@@ -62,13 +63,13 @@ class Search extends PureComponent {
   }
 
   renderResults() {
-    const { resultClassName, resultComponent, keepOpen, loading, data } = this.props
+    const { resultClassName, resultComponent, keepOpen, loading, data, disabled } = this.props
     const { search, inputHasFocus } = this.state
 
     const props = {
       innerRef: r => (this.resultsComponent = r),
       value: search,
-      open: inputHasFocus || keepOpen,
+      open: (inputHasFocus || keepOpen) && !disabled,
       onMouseLeave: this.hover(-1),
     }
 
@@ -149,6 +150,8 @@ class Search extends PureComponent {
     if (data && selectedIndex >= 0 && onSelect) onSelect(data[selectedIndex])
   }
 
+  focusInput = () => this.inputComponent.focus()
+
   listClick = () => this.onSelect()
 
   render() {
@@ -177,7 +180,7 @@ class Search extends PureComponent {
     } = this.props
     const { search, inputHasFocus } = this.state
     return (
-      <Container onFocus={this.focus(true)} onBlur={this.focus(false)} {...props}>
+      <Container onFocus={this.focus(true)} onBlur={this.focus(false)} onClick={this.focusInput} {...props}>
         {search === '' && !inputHasFocus && this.renderPlaceholder()}
         {loading && search && this.renderLoading()}
         {this.renderInput()}
@@ -198,6 +201,7 @@ Search.propTypes = {
   placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   placeholderClassName: PropTypes.string,
   value: PropTypes.string,
+  disabled: PropTypes.bool,
   loading: PropTypes.bool,
   loadingComponent: PropTypes.func,
   loadingClassName: PropTypes.string,

@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react'
 import { storiesOf } from '@storybook/react'
 import StoryComponent, { ResultItem } from './index.js'
-import { withKnobs, object, text, select } from '@storybook/addon-knobs/react'
+import { withKnobs, object, text, select, boolean } from '@storybook/addon-knobs/react'
 import debounce from 'lodash.debounce'
 
 const Item = ({ data, ...props }) => {
@@ -78,6 +78,7 @@ instanceOfStories.add('Default', () => {
   return (
     <StoryComponent
       placeholder={text('placeholder', 'Search')}
+      disabled={boolean('disabled', false)}
       keepOpen={searchState === 'keepOpen'}
       loading={searchState === 'loading'}
       data={object('data', defaultArray)}
