@@ -16,11 +16,19 @@ class Slider extends PureComponent {
       dimension: 'width',
       direction: 'left',
       coordinate: 'pageX',
+      keyEventCodes: {
+        increase: 'ArrowRight',
+        decrease: 'ArrowLeft',
+      },
     },
     vertical: {
       dimension: 'height',
       direction: 'bottom',
       coordinate: 'pageY',
+      keyEventCodes: {
+        increase: 'ArrowUp',
+        decrease: 'ArrowDown',
+      },
     },
   }
   state = {
@@ -158,19 +166,47 @@ class Slider extends PureComponent {
     this.removeEvents()
   }
 
+  step = isIncrease => {
+    const { value } = this.state
+    const { step, min, max } = this.props
+    if (isIncrease) {
+      const increase = value + step
+      if (increase > max) return null
+      this.updatePositionFromValue({
+        value: increase,
+        min,
+        max,
+      })
+    } else {
+      const decrease = value - step
+      if (decrease < min) return null
+      this.updatePositionFromValue({
+        value: decrease,
+        min,
+        max,
+      })
+    }
+  }
+
+  keyEvent = e => {
+    const codes = this.getMapping('keyEventCodes')
+    if (e && e.key) {
+      if (e.key === codes.increase) return this.step(true)
+      if (e.key === codes.decrease) return this.step(false)
+    }
+  }
+
   render() {
     const { orientation, disabled, value, onChange, onSlideEnd, min, max, step, ...props } = this.props
     return (
-      <Container innerRef={r => (this.containerRef = r)} {...props}>
+      <Container innerRef={r => (this.containerRef = r)} {...props} onKeyDown={this.keyEvent}>
         <Track
-          className={disabled ? 'disabled' : undefined}
           onMouseDown={this.startEvent}
           onTouchStart={this.startEvent}
           orientation={orientation}
           disabled={disabled}
         >
           <Thumb
-            className={disabled ? 'disabled' : undefined}
             style={this.getPosition()}
             innerRef={r => (this.thumbRef = r)}
             orientation={orientation}

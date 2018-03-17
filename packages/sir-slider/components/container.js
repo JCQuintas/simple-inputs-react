@@ -5,4 +5,8 @@ export default styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+
+  &:focus {
+    outline: none;
+  }
 `

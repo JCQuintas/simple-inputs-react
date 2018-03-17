@@ -9,6 +9,7 @@ const stories = [
     props: {
       onChange: (v, p) => console.log(`value: ${v} -- position: ${p}`),
       onSlideEnd: (v, p) => console.log('SLIDE END -- ', `value: ${v} -- position: ${p}`),
+      tabIndex: 0,
     },
   },
   {
@@ -17,6 +18,7 @@ const stories = [
       onChange: (v, p) => console.log(`value: ${v} -- position: ${p}`),
       onSlideEnd: (v, p) => console.log('SLIDE END -- ', `value: ${v} -- position: ${p}`),
       orientation: 'vertical',
+      tabIndex: 0,
     },
   },
 ]
