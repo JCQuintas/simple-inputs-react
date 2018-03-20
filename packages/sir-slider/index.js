@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Thumb, Track, Container } from './components'
+import { Thumb, Track, Container, Fill } from './components'
 
 class Slider extends PureComponent {
   containerRef = null
   thumbRef = null
   maxPosition = 0
   grabPosition = 0
+  fillPosition = 0
   handleDimension = 0
   rangeDimension = 0
   moveEvents = ['mousemove', 'touchmove']
@@ -16,6 +17,10 @@ class Slider extends PureComponent {
       dimension: 'width',
       direction: 'left',
       coordinate: 'pageX',
+      fill: {
+        start: 'left',
+        end: 'right',
+      },
       keyEventCodes: {
         increase: 'ArrowRight',
         decrease: 'ArrowLeft',
@@ -25,6 +30,10 @@ class Slider extends PureComponent {
       dimension: 'height',
       direction: 'bottom',
       coordinate: 'pageY',
+      fill: {
+        start: 'bottom',
+        end: 'top',
+      },
       keyEventCodes: {
         increase: 'ArrowUp',
         decrease: 'ArrowDown',
@@ -139,6 +148,14 @@ class Slider extends PureComponent {
     return { [this.getMapping('direction')]: `${thumbPosition}px` }
   }
 
+  getFillPosition() {
+    const { thumbPosition } = this.state
+    return {
+      [this.getMapping('fill').start]: 0,
+      [this.getMapping('fill').end]: `${this.containerDimension - (thumbPosition + this.thumbDimension / 2)}px`,
+    }
+  }
+
   resizeEvent = e => {
     const { value } = this.state
     this.getSizes()
@@ -197,7 +214,7 @@ class Slider extends PureComponent {
   }
 
   render() {
-    const { orientation, disabled, value, onChange, onSlideEnd, min, max, step, ...props } = this.props
+    const { orientation, disabled, value, onChange, onSlideEnd, min, max, step, fill, ...props } = this.props
     return (
       <Container innerRef={r => (this.containerRef = r)} {...props} onKeyDown={this.keyEvent}>
         <Track
@@ -206,6 +223,7 @@ class Slider extends PureComponent {
           orientation={orientation}
           disabled={disabled}
         >
+          {fill && <Fill style={this.getFillPosition()} orientation={orientation} disabled={disabled} />}
           <Thumb
             style={this.getPosition()}
             innerRef={r => (this.thumbRef = r)}
@@ -228,6 +246,7 @@ Slider.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number,
   step: PropTypes.number,
+  fill: PropTypes.bool,
   orientation: PropTypes.oneOf(['vertical', 'horizontal']),
 }
 
@@ -235,6 +254,7 @@ Slider.defaultProps = {
   min: 0,
   max: 100,
   step: 1,
+  fill: true,
   orientation: 'horizontal',
 }
 
