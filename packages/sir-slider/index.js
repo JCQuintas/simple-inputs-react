@@ -205,6 +205,8 @@ class Slider extends PureComponent {
     }
   }
 
+  preventDefault = e => e.preventDefault()
+
   keyEvent = e => {
     const codes = this.getMapping('keyEventCodes')
     if (e && e.key) {
@@ -220,6 +222,7 @@ class Slider extends PureComponent {
         <Track
           onMouseDown={this.startEvent}
           onTouchStart={this.startEvent}
+          onDragStart={this.preventDefault}
           orientation={orientation}
           disabled={disabled}
         >
