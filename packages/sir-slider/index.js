@@ -218,19 +218,33 @@ class Slider extends PureComponent {
   render() {
     const { orientation, disabled, value, onChange, onSlideEnd, min, max, step, fill, ...props } = this.props
     return (
-      <Container innerRef={r => (this.containerRef = r)} {...props} onKeyDown={this.keyEvent}>
+      <Container
+        innerRef={r => (this.containerRef = r)}
+        {...props}
+        onKeyDown={this.keyEvent}
+        className={disabled ? 'disabled' : undefined}
+      >
         <Track
           onMouseDown={this.startEvent}
           onTouchStart={this.startEvent}
           onDragStart={this.preventDefault}
           orientation={orientation}
+          className={disabled ? 'disabled' : undefined}
           disabled={disabled}
         >
-          {fill && <Fill style={this.getFillPosition()} orientation={orientation} disabled={disabled} />}
+          {fill && (
+            <Fill
+              style={this.getFillPosition()}
+              orientation={orientation}
+              className={disabled ? 'disabled' : undefined}
+              disabled={disabled}
+            />
+          )}
           <Thumb
             style={this.getPosition()}
             innerRef={r => (this.thumbRef = r)}
             orientation={orientation}
+            className={disabled ? 'disabled' : undefined}
             disabled={disabled}
           />
         </Track>
